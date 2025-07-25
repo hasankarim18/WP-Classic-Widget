@@ -223,23 +223,56 @@ class Author_Bio extends WP_Widget
 
     function widget($args, $instance)
     {
+        $title = esc_html($instance['title']);
+        $title = apply_filters('widget_author_bio_title', $title);
+        $bio = esc_html($instance['bio']);
+        $bio = apply_filters('widget_author_bio', $bio);
+
+
         echo $args['before_widget'];
         echo $args['before_title'];
-        echo "Author bio widget";
+        echo $title;
         echo $args['after_title'];
         ?>
-        <p>Welcome to classic widget</p>
+        <p>
+            <?php echo nl2br($bio); ?>
+        </p>
         <?php
         echo $args['after_widget'];
     }
 
-    // function form($instance)
-    // {
-    // }
+    function form($instance)
+    {
+        $title = !empty($instance['title']) ? $instance['title'] : '';
+        $bio = !empty($instance['bio']) ? $instance['bio'] : '';
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id('title'); ?>">Title:</label>
+            <input value="<?php echo $title; ?>" type="text" id="<?php echo $this->get_field_id('title'); ?>"
+                name="<?php echo $this->get_field_name('title'); ?>">
+        </p>
+        <p>
+            <label style="display: block;" for="<?php $this->get_field_id('bio'); ?>">
+                Bio
+            </label>
+            <textarea style="width:100%; " id="<?php echo $this->get_field_id('bio'); ?>"
+                name="<?php echo $this->get_field_name('bio') ?>">
+                                                                <?php echo esc_attr($bio); ?>
+                                                            </textarea>
+        </p>
+        <?php
+    }
 
-    // function update ($new_instance, $old_instance)
-    // {
-    // }
+    function update($new_instance, $old_instance)
+    {
+        $instance = [];
+        $instance['title'] = !empty($new_instance['title']) ? sanitize_text_field($new_instance['title']) : '';
+        $instance['bio'] = !empty($new_instance['bio']) ? sanitize_textarea_field($new_instance['bio']) : '';
+
+
+
+        return $instance;
+    }
 }
 
 
