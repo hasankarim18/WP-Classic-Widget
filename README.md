@@ -103,7 +103,7 @@ class Author_Bio extends WP_Widget
     {
         echo $args['before_widget'];
         echo $args['before_title'];
-        echo "Author bio widget";
+        echo "Author bio Classic";
         echo $args['after_title'];
         ?>
         <p>Welcome to classic widget</p>
