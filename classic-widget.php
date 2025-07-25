@@ -26,15 +26,19 @@ class Author_Bio extends WP_Widget
 
     function widget($args, $instance)
     {
-        $title = $instance['title'];
-        $bio = $instance['bio'];
+        $title = esc_html($instance['title']);
+        $title = apply_filters('widget_author_bio_title', $title);
+        $bio = esc_html($instance['bio']);
+        $bio = apply_filters('widget_author_bio', $bio);
+
+
         echo $args['before_widget'];
         echo $args['before_title'];
         echo $title;
         echo $args['after_title'];
         ?>
         <p>
-            <?php echo $bio; ?>
+            <?php echo nl2br($bio); ?>
         </p>
         <?php
         echo $args['after_widget'];
@@ -56,8 +60,8 @@ class Author_Bio extends WP_Widget
             </label>
             <textarea style="width:100%; " id="<?php echo $this->get_field_id('bio'); ?>"
                 name="<?php echo $this->get_field_name('bio') ?>">
-                                <?php echo esc_attr($bio); ?>
-                            </textarea>
+                                                                <?php echo esc_attr($bio); ?>
+                                                            </textarea>
         </p>
         <?php
     }
