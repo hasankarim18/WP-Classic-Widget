@@ -60,8 +60,8 @@ class Author_Bio extends WP_Widget
             </label>
             <textarea style="width:100%; " id="<?php echo $this->get_field_id('bio'); ?>"
                 name="<?php echo $this->get_field_name('bio') ?>">
-                                                                <?php echo esc_attr($bio); ?>
-                                                            </textarea>
+                                                                                                                                        <?php echo esc_attr($bio); ?>
+                                                                                                                                    </textarea>
         </p>
         <?php
     }
@@ -83,15 +83,19 @@ class CLASSIC_WIDGET
 {
     public function __construct()
     {
-        add_action('plugins_loaded', [$this, 'load_dependencies']);
-        add_action('init', [$this, 'init']);
-        add_action('widgets_init', [$this, 'register_classic_widgets']);
+        add_action('plugins_loaded', [$this, 'load_dependencies'], 10);
+        add_action('init', [$this, 'init'], 10);
+        add_action('widgets_init', [$this, 'register_classic_widgets'], 10);
+        //  add_action('widgets_init', [$this, 'register_classic_widgets'], 10);
 
     }
 
     function load_dependencies()
     {
+        if (file_exists(plugin_dir_path(__FILE__) . 'xkdc/class-xkdc.php')) {
+            require_once(plugin_dir_path(__FILE__) . 'xkdc/class-xkdc.php');
 
+        }
     }
 
     function init()
@@ -102,6 +106,7 @@ class CLASSIC_WIDGET
     function register_classic_widgets()
     {
         register_widget('Author_Bio');
+        register_widget('CWXKDC');
 
     }
 
